@@ -21,8 +21,8 @@ pipeline {
                             sshPublisherDesc(
                                 configName: 'staging',
                                 sshCredentials: [
-                                    username: "deploy",
-                                    encryptedPassphrase: "jenkins"
+                                    username: "$USERNAME",
+                                    encryptedPassphrase: "$USERPASS"
                                 ],
                                 transfers: [
                                     sshTransfer(
@@ -31,7 +31,11 @@ pipeline {
                                         remoteDirectory: '/tmp',
                                         execCommand: '''
                                             sudo apt-get update && 
-                                            sudo apt-get install -y unzip
+                                            sudo apt-get install -y unzip &&
+                                            sudo /usr/bin/systemctl stop train-schedule && 
+                                            rm -rf /opt/train-schedule/* && 
+                                            unzip /tmp/trainSchedule.zip -d /opt/train-schedule && 
+                                            sudo /usr/bin/systemctl start train-schedule
                                         '''
                                     )
                                 ]

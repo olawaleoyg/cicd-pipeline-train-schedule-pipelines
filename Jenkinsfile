@@ -13,7 +13,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'deploy', passwordVariable: 'jenkins')]) {
+                withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     sshPublisher(
                         failOnError: true,
                         continueOnError: false,
@@ -30,12 +30,8 @@ pipeline {
                                         removePrefix: 'dist/',
                                         remoteDirectory: '/tmp',
                                         execCommand: '''
-                                            echo "$USERPASS" | sudo -S apt-get update && 
-                                            echo "$USERPASS" | sudo -S apt-get install -y unzip &&
-                                            echo "$USERPASS" | sudo -S /usr/bin/systemctl stop train-schedule && 
-                                            echo "$USERPASS" | sudo -S rm -rf /opt/train-schedule/* && 
-                                            echo "$USERPASS" | sudo -S unzip /tmp/trainSchedule.zip -d /opt/train-schedule && 
-                                            echo "$USERPASS" | sudo -S /usr/bin/systemctl start train-schedule
+                                            sudo apt-get update && 
+                                            sudo apt-get install -y unzip
                                         '''
                                     )
                                 ]

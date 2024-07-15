@@ -30,12 +30,12 @@ pipeline {
                                         removePrefix: 'dist/',
                                         remoteDirectory: '/tmp',
                                         execCommand: '''
-                                            sudo apt-get update && 
-                                            sudo apt-get install -y unzip &&
-                                            sudo /usr/bin/systemctl stop train-schedule && 
-                                            rm -rf /opt/train-schedule/* && 
-                                            unzip /tmp/trainSchedule.zip -d /opt/train-schedule && 
-                                            sudo /usr/bin/systemctl start train-schedule
+                                            echo "$USERPASS" | sudo -S apt-get update && 
+                                            echo "$USERPASS" | sudo -S apt-get install -y unzip &&
+                                            echo "$USERPASS" | sudo -S /usr/bin/systemctl stop train-schedule && 
+                                            echo "$USERPASS" | sudo -S rm -rf /opt/train-schedule/* && 
+                                            echo "$USERPASS" | sudo -S unzip /tmp/trainSchedule.zip -d /opt/train-schedule && 
+                                            echo "$USERPASS" | sudo -S /usr/bin/systemctl start train-schedule
                                         '''
                                     )
                                 ]

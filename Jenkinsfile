@@ -20,10 +20,6 @@ pipeline {
                         publishers: [
                             sshPublisherDesc(
                                 configName: 'staging',
-                                sshCredentials: [
-                                    username: "$USERNAME",
-                                    encryptedPassphrase: "$USERPASS"
-                                ], 
                                 transfers: [
                                     sshTransfer(
                                         sourceFiles: 'dist/trainSchedule.zip',
@@ -31,10 +27,15 @@ pipeline {
                                         remoteDirectory: '/tmp',
                                         execCommand: "echo 'Hello, Packer!'"
                                     )
-                                ]
+                                ],
+                                usePromotionTimestamp: false,
+                                useWorkspaceInPromotion: false,
+                                verbose: true
                             )
                         ]
                     )
                 }
             }
         }
+    }
+}
